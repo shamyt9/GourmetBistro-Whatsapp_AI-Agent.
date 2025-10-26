@@ -6,10 +6,11 @@ This is the exported workflow (`.json`) for an AI-powered restaurant assistant b
 
 ## 🎬 Demo Video
 
-
+Watch the full demo on Google Drive 👇  
+[![Watch the Demo Video]]([https://drive.google.com/file/d/YOUR_DRIVE_FILE_ID/view?usp=sharing](https://drive.google.com/file/d/15-c5ZRC2cQG5pnDAtBHYUsxo_xaX5Wfk/view?usp=sharing))
 
 > 🎥 Click the thumbnail above or the link below to view the workflow demonstration on Drive.  
-> [▶️ Watch Demo on Google Drive]([https://drive.google.com/file/d/YOUR_DRIVE_FILE_ID/view?usp=sharing](https://drive.google.com/file/d/15-c5ZRC2cQG5pnDAtBHYUsxo_xaX5Wfk/view?usp=drive_link))
+> [▶️ Watch Demo on Google Drive]([https://drive.google.com/file/d/YOUR_DRIVE_FILE_ID/view?usp=sharing](https://drive.google.com/file/d/15-c5ZRC2cQG5pnDAtBHYUsxo_xaX5Wfk/view?usp=sharing))
 
 ---
 
