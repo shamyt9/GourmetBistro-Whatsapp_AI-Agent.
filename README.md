@@ -1,34 +1,32 @@
 # 🍽️ Gourmet Bistro WhatsApp AI Agent
 
-This is the exported workflow (`.json`) for an AI-powered restaurant assistant built using **8n8/n8n** and **WhatsApp Cloud API**.
+This is the exported workflow (`.json`) for an **AI-powered restaurant assistant** built using **n8n** and **WhatsApp Cloud API**.
 
 ---
 
-## 🎬 Demo Video
+## 🎥 Demo Video  
+[![Watch the Demo](https://drive.google.com/uc?export=view&id=1LwHwEcf5eU47wc6-t7k6lY3KiXFEG8mX)](https://drive.google.com/file/d/15-c5ZRC2cQG5pnDAtBHYUsxo_xaX5Wfk/view?usp=sharing)
 
-Watch the full demo on Google Drive 👇  
-[![Watch the Demo Video]]([https://drive.google.com/file/d/YOUR_DRIVE_FILE_ID/view?usp=sharing](https://drive.google.com/file/d/15-c5ZRC2cQG5pnDAtBHYUsxo_xaX5Wfk/view?usp=sharing))
-
-> 🎥 Click the thumbnail above or the link below to view the workflow demonstration on Drive.  
-> [▶️ Watch Demo on Google Drive]([https://drive.google.com/file/d/YOUR_DRIVE_FILE_ID/view?usp=sharing](https://drive.google.com/file/d/15-c5ZRC2cQG5pnDAtBHYUsxo_xaX5Wfk/view?usp=sharing))
+> 🔗 *Click the image above to watch the demo video on Google Drive.*
 
 ---
 
 ## 🧠 Features
 - Responds automatically to customer WhatsApp messages  
-- Handles menu inquiries (starters, main course, pasta, rice & biryani, desserts)  
-- Supports order and delivery inquiries  
-- Uses AI agent for natural language conversation  
+- Handles menu inquiries (**Starters**, **Main Course**, **Pasta**, **Rice & Biryani**, **Desserts**)  
+- Supports **Order** and **Delivery Inquiry**  
+- Uses an **AI Agent** for natural conversation  
 
 ---
 
 ## ⚙️ Setup
-1. Import this `.json` file into your **8n8** or **n8n** workspace.  
-2. Configure your **WhatsApp Cloud API** credentials.  
-3. Set up your webhook in **Meta Developer Console**.  
+1. Import the `.json` file into your **n8n** workspace.  
+2. Configure **WhatsApp Cloud API** credentials.  
+3. Set up your **Webhook** in the Meta Developer Console.  
 4. Run the workflow and test by sending a message to your test WhatsApp number.  
 
 ---
 
 ⚠️ **Note:**  
-This file does not include sensitive tokens or API credentials. Always keep your access tokens private.
+This repository does not include any sensitive tokens or credentials.  
+Always keep your **access tokens** private.
