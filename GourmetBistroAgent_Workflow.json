@@ -1,0 +1,556 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.messages[0].text.body}}\n",
+        "options": {
+          "systemMessage": "🏠 Restaurant Information\n\nName: Gourmet Bistro\nType: Multi-cuisine fine dining restaurant\nService: Dine-in, takeaway, and delivery\nDelivery time: Within 2 hours (subject to availability)\n\n🤖 AI Agent Guidelines (Rules & Regulations)\n\nGreeting Rule\n\nAlways start with:\n\n“Welcome to Gourmet Bistro! 🌟 I’m your virtual assistant. Please choose an option below to continue.”\n\nThen show menu options (horizontally or numbered list).\n\nMenu Options Display\nThe AI should always offer the following options for user selection:\n1️⃣ Inquiry  \n2️⃣ Starters  \n3️⃣ Main Course  \n4️⃣ Pastas  \n5️⃣ Rice & Biryani  \n6️⃣ Desserts  \n7️⃣ Delivery Inquiry  \n8️⃣ Order\nThe AI must wait for user selection before proceeding.\n\nIf the user types something unclear, politely ask:\n\n“Sorry, I didn’t get that. Please choose one of the options above (e.g., type ‘Starters’ or ‘1’).”\n\nInquiry Handling\n\nIf the user selects Inquiry, reply:\n\n“Sure! You can ask about our menu items, ingredients, delivery status, or pricing. What would you like to know?”\n\nMenu Item Responses\n\nStarters: Suggest 3–5 items with short descriptions and prices.\nExample:\n\n“Here are our popular Starters:\n🧀 Cheese Balls – ₹180\n🍗 Chicken Tikka – ₹250\n🥗 Greek Salad – ₹200”\n\nMain Course: Show 4–5 top items.\n\nPastas: Show options (White Sauce, Red Sauce, Veg/Non-Veg).\n\nRice & Biryani: Show top picks with spice info.\n\nDesserts: Mention 3–4 sweets or ice-creams.\n\nOrder Handling\n\nIf user chooses Order, AI must ask:\n\n“Please type the dish name and quantity you’d like to order.”\n\nAfter receiving items:\n\n“Thank you! Please share your delivery location or table number (for dine-in).”\n\nConfirm:\n\n“Got it! Your order will be ready/delivered within approximately 2 hours.”\n\nDelivery Inquiry\n\nIf user asks for delivery status:\n\n“Please share your order ID or registered mobile number to check your order status.”\n\nIf user gives info, respond with mock status (e.g., “Your order is being prepared.”)\n\nUnavailable Items Rule\n\nIf any menu item is not available, AI must say:\n\n“I’m sorry, that item is currently unavailable. Would you like to try something similar?”\n\nPoliteness & Tone\n\nAlways be friendly, polite, and short.\n\nUse emojis where appropriate (food, smile, etc.).\n\nNever argue, repeat or confirm twice unnecessarily.\n\nPolicy Rule\n\nDelivery within 2 hours depending on distance.\n\nOrders cannot be canceled after 15 minutes of confirmation.\n\nPayment on delivery or digital payment accepted.\n\nPrices include applicable taxes.\n\nError Handling Rule\n\nIf input is unrelated (e.g., “Who are you?”):\n\n“I’m your virtual dining assistant at Gourmet Bistro 🍴. Would you like to see our menu or check delivery status?”\n\nIf the user types nothing:\n\n“Please type one of the menu options to continue 😊.”"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "238ca8fd-e705-43aa-b63f-87f9c3ac1c55",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "ef70a8cf-b73a-43c2-838e-e08757940903",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "hHUoaGajpxoXiwl4",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{$('trigger').item.json.contacts[0].wa_id}}",
+        "contextWindowLength": 12
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "61c43a3d-8963-4e17-beec-b2b3e70efbf6",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU",
+          "mode": "list",
+          "cachedResultName": "boomBox Restaurants",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inquiry",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        976,
+        176
+      ],
+      "id": "27b94b0d-f0bf-4aee-9468-feec59bdbfb9",
+      "name": "inquiry",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HImHxnQe9DYCjW7U",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU",
+          "mode": "list",
+          "cachedResultName": "Free Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1944224127,
+          "mode": "list",
+          "cachedResultName": "starter",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit#gid=1944224127"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        208
+      ],
+      "id": "896ad64e-6d1a-4f5c-b54e-5fcc7480cdc3",
+      "name": "starter",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HImHxnQe9DYCjW7U",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU",
+          "mode": "list",
+          "cachedResultName": "Free Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1470994555,
+          "mode": "list",
+          "cachedResultName": "rice and biryani",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit#gid=1470994555"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        224
+      ],
+      "id": "e55689d1-33ec-4c07-893d-1df98babf7d8",
+      "name": "rice and biryani",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HImHxnQe9DYCjW7U",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU",
+          "mode": "list",
+          "cachedResultName": "Free Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1536460879,
+          "mode": "list",
+          "cachedResultName": "main course",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit#gid=1536460879"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        240
+      ],
+      "id": "2e16e80b-4f3a-4091-994a-a4fa6d318850",
+      "name": "main course",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HImHxnQe9DYCjW7U",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU",
+          "mode": "list",
+          "cachedResultName": "Free Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1839705636,
+          "mode": "list",
+          "cachedResultName": "pastas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit#gid=1839705636"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        592,
+        256
+      ],
+      "id": "342549f2-5b53-424b-b86b-709f02d70224",
+      "name": "pastas",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HImHxnQe9DYCjW7U",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU",
+          "mode": "list",
+          "cachedResultName": "Free Delivery System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 69024850,
+          "mode": "list",
+          "cachedResultName": "orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yJZl4iae6Coj_L5u61ECzzlxmENw19ZklnxRpdEt6bU/edit#gid=69024850"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Order ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Order_ID', ``, 'string') }}",
+            "Customer Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Customer_Name', ``, 'string') }}",
+            "Phone Number": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Phone_Number', ``, 'string') }}",
+            "Address": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Address', ``, 'string') }}",
+            "Ordered Items": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Ordered_Items', ``, 'string') }}",
+            "Quantity": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Quantity', ``, 'string') }}",
+            "Total Amount": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Total_Amount', ``, 'string') }}",
+            "Payment Mode": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Payment_Mode', ``, 'string') }}",
+            "Order Status": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Order_Status', ``, 'string') }}",
+            "Special Instructions": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Special_Instructions', ``, 'string') }}",
+            "Order Date": "={{$now.format('yyyy-MM-dd HH:mm:ss')}}",
+            "Delivery Time": "={{$now.plus({ hours: 2 }).toFormat('yyyy-MM-dd HH:mm:ss')}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Order ID",
+              "displayName": "Order ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ordered Items",
+              "displayName": "Ordered Items",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Amount",
+              "displayName": "Total Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Payment Mode",
+              "displayName": "Payment Mode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order Status",
+              "displayName": "Order Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order Date",
+              "displayName": "Order Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Delivery Time",
+              "displayName": "Delivery Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Special Instructions",
+              "displayName": "Special Instructions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        496,
+        256
+      ],
+      "id": "85fcb0fc-b6f5-4d15-9f4c-83b6a6c8dee1",
+      "name": "orders",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HImHxnQe9DYCjW7U",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "772255675981547",
+        "recipientPhoneNumber": "918840385022",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        0
+      ],
+      "id": "daba1f5d-f60b-4cd9-b361-7efcceb03e8b",
+      "name": "Send message",
+      "webhookId": "a36d6f51-f4d2-4bc5-a5e3-d6916c817799",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "u10J9fln3MrZaygx",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "465a0fb4-4b11-49bd-8d6f-4f574a96bc6d",
+      "name": "trigger",
+      "webhookId": "2778f6b1-0f2b-40e7-919a-071f6a8de021",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "hFDdvoG3nSn39qcZ",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "inquiry": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "starter": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "rice and biryani": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "main course": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pastas": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "orders": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2589ba8b-c961-4e43-b16d-70922e01b4db",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a39e2c1f221d2bd1b9ef9d549291198080808d292020e4f59b33172682f1df50"
+  },
+  "id": "e6bKPWxyL7T2DHep",
+  "tags": []
+}
